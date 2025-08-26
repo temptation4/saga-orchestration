@@ -1,0 +1,5 @@
+com/example/saga/inventoryservice/config/KafkaConfig.class
+com/example/saga/inventoryservice/listeners/InventoryListeners.class
+com/example/saga/inventoryservice/store/StockStore.class
+com/example/saga/inventoryservice/InventoryServiceApplication.class
+com/example/saga/inventoryservice/api/StockController.class

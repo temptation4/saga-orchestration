@@ -5,6 +5,9 @@ import com.example.saga.orderservice.repository.OrderRepository;
 import com.example.saga.common.events.OrderEvents;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 public class OrderListeners {
@@ -16,9 +19,11 @@ public class OrderListeners {
     }
 
     @KafkaListener(topics = "order-created", groupId = "order-service")
+    @Transactional("kafkaTransactionManager") // ✅ Kafka + DB atomic commit
     public void handleOrderCreated(OrderEvents.OrderCreated event) {
         Orders order = new Orders();
-        order.setOrderId(event.orderId());
+        String orderId = UUID.randomUUID().toString();
+        order.setOrderId(orderId);
         order.setName(event.itemName());
         order.setQuantity(event.quantity());
         order.setAmount(Double.parseDouble(event.amount().toString()));

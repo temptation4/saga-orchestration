@@ -1,6 +1,7 @@
 package com.example.saga.orderservice.api;
 
-import com.example.saga.orderservice.dto.OrderCreatedEvent;
+import com.example.saga.common.Topics;
+import com.example.saga.common.events.OrderEvents;
 import com.example.saga.orderservice.dto.OrderRequest;
 import com.example.saga.orderservice.entity.Orders;
 import com.example.saga.orderservice.repository.OrderRepository;
@@ -26,24 +27,15 @@ public class OrderCommandController {
         // Generate an orderId
         String orderId = UUID.randomUUID().toString();
 
-        // Save in DB
-        Orders order = new Orders();
-        order.setOrderId(orderId);
-        order.setQuantity(request.quantity());
-        order.setAmount(Double.parseDouble(request.price().toString()));
-        order.setName("");
-        order.setStatus("PENDING");
-        orderRepository.save(order);
-
         // Publish OrderCreatedEvent to Kafka
-        OrderCreatedEvent event = new OrderCreatedEvent(
+        OrderEvents.OrderCreated event = new OrderEvents.OrderCreated(
                 orderId,
                 request.customerId(),
                 request.productId(),
                 request.quantity(),
                 request.price()
         );
-        kafkaTemplate.send("order-created", orderId, event);
+        kafkaTemplate.send(Topics.ORDER_CREATED, orderId, event);
 
         return orderId;
     }

@@ -1,4 +1,3 @@
 com/example/saga/orchestratorservice/config/KafkaConfig.class
 com/example/saga/orchestratorservice/saga/OrchestratorListeners.class
 com/example/saga/orchestratorservice/OrchestratorServiceApplication.class
-com/example/saga/orchestratorservice/api/OrderController.class

@@ -1,5 +1,6 @@
 package com.example.saga.inventoryservice.listeners;
 
+import com.example.saga.common.Topics;
 import com.example.saga.inventoryservice.entity.Inventory;
 import com.example.saga.inventoryservice.repository.InventoryRepository;
 import com.example.saga.common.events.InventoryEvents;
@@ -18,9 +19,9 @@ public class InventoryListeners {
         this.kafka = kafka;
     }
 
-    @KafkaListener(topics = "inventory-reserve", groupId = "inventory-service")
+    @KafkaListener(topics = Topics.INVENTORY_RESERVE, groupId = "inventory-service")
     public void handleReserve(InventoryEvents.ReserveInventory event) {
-        Inventory item = repo.findById(event.itemName()).orElse(null);
+        Inventory item = repo.findById(event.orderId()).orElse(null);
 
         if (item != null && item.getQuantity() >= event.quantity()) {
             item.setQuantity(item.getQuantity() - event.quantity());

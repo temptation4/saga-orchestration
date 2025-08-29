@@ -1,4 +1,4 @@
-# Saga Orchestration (Spring Boot + Kafka, Java 19)
+# Saga Orchestration (Spring Boot + Kafka, Java 19) 
 
 This is a demo multi-module Maven project implementing a Saga **Orchestration** pattern
 using Spring Boot and Apache Kafka.
